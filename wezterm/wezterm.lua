@@ -70,6 +70,7 @@ config.keys = {
     bind_super_key_to_vim("k"),
     bind_super_key_to_vim("l"),
     { key = "Enter", mods = "CMD", action = wezterm.action.ToggleFullScreen },
+    { key = "v",     mods = "CMD", action = wezterm.action.PasteFrom("Clipboard") },
 }
 
 config.mouse_bindings = {
