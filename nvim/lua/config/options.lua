@@ -9,9 +9,9 @@ vim.opt.fillchars = { eob = " " }
 
 vim.opt.clipboard = "unnamedplus"
 
-vim.opt_local.shiftwidth = 4
-vim.opt_local.tabstop = 4
-vim.opt_local.softtabstop = 4
+vim.opt_local.shiftwidth = 2
+vim.opt_local.tabstop = 2
+vim.opt_local.softtabstop = 2
 vim.opt_local.expandtab = true
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal

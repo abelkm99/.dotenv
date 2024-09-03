@@ -22,3 +22,36 @@ vim.keymap.set("i", "kk", "<ESC>")
 vim.keymap.set("n", "gp", ":pop<CR>")
 vim.keymap.set("n", "go", ":bdelete<CR>")
 vim.keymap.set("n", "-", ":Oil<CR>", { desc = "Open oil" })
+
+--- configure shifting
+
+vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true, silent = true })
+
+-- open configuration
+vim.keymap.set("n", "<leader>Lc", ":e $MYVIMRC<CR>", { noremap = true, silent = true, desc = "Open init.lua" })
+
+--- resize pan
+
+vim.keymap.set("n", "<A-l>", function()
+	local win = vim.api.nvim_get_current_win()
+	local width = vim.api.nvim_win_get_width(win)
+	vim.api.nvim_win_set_width(win, width + 5)
+end, { noremap = true, silent = true, desc = "Increase pane width" })
+
+vim.keymap.set("n", "<A-h>", function()
+	local win = vim.api.nvim_get_current_win()
+	local width = vim.api.nvim_win_get_width(win)
+	vim.api.nvim_win_set_width(win, width - 5)
+end, { noremap = true, silent = true, desc = "Decrease pane width" })
+
+vim.keymap.set("n", "<A-j>", function()
+	local win = vim.api.nvim_get_current_win()
+	local height = vim.api.nvim_win_get_height(win)
+	vim.api.nvim_win_set_height(win, height + 5)
+end, { noremap = true, silent = true, desc = "Increase pane height" })
+vim.keymap.set("n", "<A-k>", function()
+	local win = vim.api.nvim_get_current_win()
+	local height = vim.api.nvim_win_get_height(win)
+	vim.api.nvim_win_set_height(win, height - 5)
+end, { noremap = true, silent = true, desc = "Decrease pane height" })

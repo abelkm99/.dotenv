@@ -159,6 +159,8 @@ function M.setup()
 
 		capabilities = capabilities,
 	})
+
+	lspconfig.dockerls.setup({})
 end
 
 return M
