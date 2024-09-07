@@ -161,6 +161,7 @@ function M.setup()
 	})
 
 	lspconfig.dockerls.setup({})
+	lspconfig.clangd.setup({})
 end
 
 return M
