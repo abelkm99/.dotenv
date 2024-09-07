@@ -18,27 +18,47 @@ local super_vim_keys_map = {
 	k = utf8.char(0xB2),
 	l = utf8.char(0xB3),
 }
-local function bind_super_key_to_vim(key)
+
+local super_vim_keys_map_alt = {
+	h = utf8.char(0x2591),
+	j = utf8.char(0x2592),
+	k = utf8.char(0x2593),
+	l = utf8.char(0x2588),
+}
+local direction = {
+	h = "Left",
+	j = "Down",
+	k = "Up",
+	l = "Right",
+}
+
+local function bind_super_key_to_vim(key, mods)
 	return {
 		key = key,
-		mods = "CMD",
+		mods = mods,
 		action = wezterm.action_callback(function(win, pane)
-			local char = super_vim_keys_map[key]
-			-- wezterm.:og_info("Triggered for key: " .. key .. ", char: " .. tostring(char))
-			if char and is_vim(pane) then
-				-- wezterm.log_info("Sending to Vim: " .. char)
-				win:perform_action({
-					SendKey = { key = char, mods = nil },
-				}, pane)
-			else
-				-- Fall back to WezTerm pane navigation
-				local direction = {
-					h = "Left",
-					j = "Down",
-					k = "Up",
-					l = "Right",
-				}
-				win:perform_action(wezterm.action.ActivatePaneDirection(direction[key]), pane)
+			if mods == "CMD" then
+				local char = super_vim_keys_map[key]
+				-- wezterm.:og_info("Triggered for key: " .. key .. ", char: " .. tostring(char))
+				if char and is_vim(pane) then
+					-- wezterm.log_info("Sending to Vim: " .. char)
+					win:perform_action({
+						SendKey = { key = char, mods = nil },
+					}, pane)
+				else
+					win:perform_action(wezterm.action.ActivatePaneDirection(direction[key]), pane)
+				end
+			end
+			if mods == "ALT" then
+				local char = super_vim_keys_map_alt[key]
+				if char and is_vim(pane) then
+					wezterm.log_info("Sending to Vim: " .. char)
+					win:perform_action({
+						SendKey = { key = char, mods = nil },
+					}, pane)
+				else
+					win:perform_action(wezterm.action.AdjustPaneSize({ direction[key], 5 }), pane)
+				end
 			end
 		end),
 	}
@@ -61,34 +81,25 @@ config.enable_tab_bar = false
 config.keys = {
 	{ mods = "CMD", key = "i", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ mods = "CMD", key = "o", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "h", mods = "CMD", action = wezterm.action.ActivatePaneDirection("Left") },
-	{ key = "j", mods = "CMD", action = wezterm.action.ActivatePaneDirection("Down") },
-	{ key = "k", mods = "CMD", action = wezterm.action.ActivatePaneDirection("Up") },
-	{ key = "l", mods = "CMD", action = wezterm.action.ActivatePaneDirection("Right") },
-	bind_super_key_to_vim("h"),
-	bind_super_key_to_vim("j"),
-	bind_super_key_to_vim("k"),
-	bind_super_key_to_vim("l"),
-	{ key = "Enter", mods = "CMD", action = wezterm.action.ToggleFullScreen },
-	{ key = "v", mods = "CMD", action = wezterm.action.PasteFrom("Clipboard") },
-  {key="n", mods="CTRL", action=wezterm.action{SpawnTab="CurrentPaneDomain"}},
-}
 
--- config.mouse_bindings = {
--- 	-- Change the default click behavior so that it populates
--- 	-- the Clipboard rather the PrimarySelection.
--- 	{
--- 		event = { Up = { streak = 1, button = "Left" } },
--- 		mods = "NONE",
--- 		-- action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor("Clipboard"),
--- 		action = wezterm.action_callback(function(window, pane)
--- 			-- action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor("Clipboard"),
--- 			-- copy the data
--- 			window:perform_action(wezterm.action.CopyTo("Clipboard"), pane)
--- 			window:perform_action(wezterm.action.ClearSelection, pane)
--- 		end),
--- 	},
--- }
+	-- { key = "h",    mods = "CMD", action = wezterm.action.ActivatePaneDirection("Left") },
+	-- { key = "j",    mods = "CMD", action = wezterm.action.ActivatePaneDirection("Down") },
+	-- { key = "k",    mods = "CMD", action = wezterm.action.ActivatePaneDirection("Up") },
+	-- { key = "l",    mods = "CMD", action = wezterm.action.ActivatePaneDirection("Right") },
+	-- { key = "h",     mods = "ALT",  action = wezterm.action.AdjustPaneSize({ "Left", 5 }) },
+
+	bind_super_key_to_vim("h", "CMD"),
+	bind_super_key_to_vim("j", "CMD"),
+	bind_super_key_to_vim("k", "CMD"),
+	bind_super_key_to_vim("l", "CMD"),
+	bind_super_key_to_vim("h", "ALT"),
+	bind_super_key_to_vim("j", "ALT"),
+	bind_super_key_to_vim("k", "ALT"),
+	bind_super_key_to_vim("l", "ALT"),
+	{ key = "Enter", mods = "CMD",  action = wezterm.action.ToggleFullScreen },
+	{ key = "v",     mods = "CMD",  action = wezterm.action.PasteFrom("Clipboard") },
+	{ key = "n",     mods = "CTRL", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+}
 
 config.selection_word_boundary = " \t\n{}[]()\"'`,;:"
 

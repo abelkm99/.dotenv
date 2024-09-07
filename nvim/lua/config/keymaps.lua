@@ -25,8 +25,8 @@ vim.keymap.set("n", "-", ":Oil<CR>", { desc = "Open oil" })
 
 --- configure shifting
 
-vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", ">", ">gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<", "<gv", { noremap = true, silent = true })
 
 -- open configuration
 vim.keymap.set("n", "<leader>Lc", ":e $MYVIMRC<CR>", { noremap = true, silent = true, desc = "Open init.lua" })
@@ -55,3 +55,40 @@ vim.keymap.set("n", "<A-k>", function()
 	local height = vim.api.nvim_win_get_height(win)
 	vim.api.nvim_win_set_height(win, height - 5)
 end, { noremap = true, silent = true, desc = "Decrease pane height" })
+
+-- map for the values sent from wezterm
+
+local super_vim_keys_map_alt = {
+	h = 0x2591,
+	j = 0x2592,
+	k = 0x2593,
+	l = 0x2588,
+}
+
+-- map h
+vim.keymap.set("n", vim.fn.nr2char(super_vim_keys_map_alt["h"]), function()
+	local win = vim.api.nvim_get_current_win()
+	local width = vim.api.nvim_win_get_width(win)
+	vim.api.nvim_win_set_width(win, width - 5)
+end, { noremap = true, silent = true })
+
+-- map l
+vim.keymap.set("n", vim.fn.nr2char(super_vim_keys_map_alt["l"]), function()
+	local win = vim.api.nvim_get_current_win()
+	local width = vim.api.nvim_win_get_width(win)
+	vim.api.nvim_win_set_width(win, width + 5)
+end, { noremap = true, silent = true })
+
+-- map j
+vim.keymap.set("n", vim.fn.nr2char(super_vim_keys_map_alt["j"]), function()
+	local win = vim.api.nvim_get_current_win()
+	local height = vim.api.nvim_win_get_height(win)
+	vim.api.nvim_win_set_height(win, height + 5)
+end, { noremap = true, silent = true })
+
+-- map k
+vim.keymap.set("n", vim.fn.nr2char(super_vim_keys_map_alt["k"]), function()
+	local win = vim.api.nvim_get_current_win()
+	local height = vim.api.nvim_win_get_height(win)
+	vim.api.nvim_win_set_height(win, height - 5)
+end, { noremap = true, silent = true })

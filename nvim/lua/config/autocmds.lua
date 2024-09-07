@@ -3,8 +3,8 @@ local vim = vim
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function()
-		if vim.bo.filetype == "python" then
-			vim.lsp.buf.format()
+		vim.lsp.buf.format()
+		if vim.bo.filetype == "pythonnn" or vim.bo.filetype == "go" then
 			vim.lsp.buf.code_action({
 				context = { only = { "source.fixAll" }, diagnostics = {} },
 				apply = true,
