@@ -130,9 +130,25 @@ return {
 						entry_filter = function(entry, ctx)
 							local kind = require("cmp.types.lsp").CompletionItemKind
 							[entry:get_kind()]
+
+							-- Filter out snippets for Java files
 							if kind == "Snippet" and ctx.prev_context.filetype == "java" then
 								return false
 							end
+
+							-- Filter out entries with unwanted spaces
+							local completion_item = entry:get_completion_item()
+							if completion_item and completion_item.label then
+								-- Check if the label contains spaces that weren't in the original input
+								local input = ctx.cursor_before_line:match("%S+$") or ""
+								local label_without_spaces = completion_item.label:gsub(
+								"%s+", "")
+
+								if not input:find(" ") and completion_item.label:find(" ") then
+									return false
+								end
+							end
+
 							return true
 						end,
 					},
