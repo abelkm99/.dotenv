@@ -65,12 +65,19 @@ return {
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
+			local handle = io.popen("whoami")
+			local whoami = handle:read("*a")
+			handle:close()
+			whoami = whoami:gsub("^%s*(.-)%s*$", "%1")
+
 			local os = function()
 				return " "
 			end
+
 			local dev = function()
-				return "🧔💻 bella"
+				return "🧔💻" .. whoami
 			end
+
 			local clients_lsp = function()
 				local bufnr = vim.api.nvim_get_current_buf()
 
@@ -331,7 +338,7 @@ return {
 				"rcarriga/nvim-notify",
 				config = function()
 					require("notify").setup({
-						-- level = "error",
+						level = "error",
 					})
 				end,
 			},
