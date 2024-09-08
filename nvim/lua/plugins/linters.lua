@@ -79,15 +79,6 @@ return {
 				-- go = { "golangci_lint" },
 				-- Add more file types and their corresponding linters here
 			}
-
-			-- Create an autocmd to trigger linting
-			vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
-				callback = function()
-					lint.try_lint()
-				end,
-			})
-
-			-- Optional: Set up a keymap to trigger linting manually
 			vim.keymap.set("n", "<leader>cl", function()
 				lint.try_lint()
 			end, { desc = "Trigger linting for current file" })
