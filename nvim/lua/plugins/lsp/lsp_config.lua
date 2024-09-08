@@ -118,6 +118,19 @@ function M.setup()
 		capabilities = capabilities,
 	})
 
+	-- add rust analyzer
+
+	lspconfig.rust_analyzer.setup({
+		capabilities = capabilities,
+		settings = {
+			["rust-analyzer"] = {
+				check = {
+					command = "clippy",
+				},
+			},
+		},
+	})
+
 	--- go config
 	lspconfig.gopls.setup({
 

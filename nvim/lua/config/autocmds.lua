@@ -2,8 +2,10 @@
 local vim = vim
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-	callback = function()
-		vim.lsp.buf.format()
+	callback = function(args)
+		-- vim.lsp.buf.format()
+		print("hello")
+		require("conform").format({ bufnr = args.buf })
 		if vim.bo.filetype == "pythonnn" or vim.bo.filetype == "go" then
 			vim.lsp.buf.code_action({
 				context = { only = { "source.fixAll" }, diagnostics = {} },
@@ -26,5 +28,13 @@ vim.api.nvim_create_autocmd("FileType", {
 	callback = function()
 		-- let treesitter use bash highlight for zsh files as well
 		require("nvim-treesitter.highlight").attach(0, "bash")
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	callback = function()
+		-- try_lint without arguments runs the linters defined in `linters_by_ft`
+		-- for the current filetype
+		require("lint").try_lint()
 	end,
 })
