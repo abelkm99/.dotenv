@@ -114,7 +114,7 @@ function M.setup()
 		capabilities = capabilities,
 	})
 
-	lspconfig.tsserver.setup({
+	lspconfig.ts_ls.setup({
 		capabilities = capabilities,
 	})
 
@@ -122,13 +122,6 @@ function M.setup()
 
 	lspconfig.rust_analyzer.setup({
 		capabilities = capabilities,
-		settings = {
-			["rust-analyzer"] = {
-				check = {
-					command = "clippy",
-				},
-			},
-		},
 	})
 
 	--- go config

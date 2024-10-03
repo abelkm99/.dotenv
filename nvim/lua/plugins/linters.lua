@@ -72,9 +72,9 @@ return {
 
 			-- Define the linters you want to use for different file types
 			lint.linters_by_ft = {
-				python = { "ruff", "mypy" },
-				javascript = { "eslint" },
-				typescript = { "eslint" },
+				-- python = { "ruff_lsp" },
+				-- javascript = { "eslint" },
+				-- typescript = { "eslint" },
 				-- lua = { "luacheck" },
 				-- go = { "golangci_lint" },
 				-- Add more file types and their corresponding linters here

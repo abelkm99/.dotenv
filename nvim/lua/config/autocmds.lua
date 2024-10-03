@@ -4,8 +4,7 @@ local vim = vim
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function(args)
 		-- vim.lsp.buf.format()
-		print("hello")
-		require("conform").format({ bufnr = args.buf })
+		-- require("conform").format({ bufnr = args.buf })
 		if vim.bo.filetype == "pythonnn" or vim.bo.filetype == "go" then
 			vim.lsp.buf.code_action({
 				context = { only = { "source.fixAll" }, diagnostics = {} },

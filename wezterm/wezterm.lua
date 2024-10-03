@@ -25,6 +25,7 @@ local super_vim_keys_map_alt = {
 	k = utf8.char(0x2593),
 	l = utf8.char(0x2588),
 }
+
 local direction = {
 	h = "Left",
 	j = "Down",
@@ -69,6 +70,7 @@ local config = wezterm.config_builder()
 config.color_scheme = "Gruvbox dark, medium (base16)"
 config.color_scheme = "Gruvbox dark, hard (base16)"
 config.color_scheme = "Gruvbox dark, medium (base16)"
+-- config.color_scheme = "Catppuccin Latte"
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
 config.font_size = 14.0
 
@@ -102,5 +104,11 @@ config.keys = {
 }
 
 config.selection_word_boundary = " \t\n{}[]()\"'`,;:"
+config.window_padding = {
+  left = 5,
+  right = 5,
+  top = 10,
+  bottom = 10,
+}
 
 return config
