@@ -1,4 +1,7 @@
 *
-!nvim/
-!wezterm/
+!nvim/**
+!wezterm/**
+!ghostty/
+!ghostty/**
+!starship.toml
 !.gitignore

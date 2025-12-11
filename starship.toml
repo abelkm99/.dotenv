@@ -1,0 +1,82 @@
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_status\
+$git_state\
+$fill\
+$zig\
+$cmd_duration $jobs $time\
+$line_break\
+$character"""
+
+[fill]
+symbol = ' '
+
+[character]
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
+vicmd_symbol = "[❮](green)"
+
+[nodejs]
+format = "[$symbol($version )]($style)"
+
+[directory]
+read_only = " "
+truncation_length = 4
+truncate_to_repo = false
+
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "
+
+[git_status]
+up_to_date = '✓'
+conflicted = "⚔️ "
+untracked = "[×${count} ](red)"
+stashed = '📦'
+staged = '[+$count ](green)'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+modified = "📝 ×${count} "
+renamed = "📛 ×${count} "
+deleted = "🗑️  ×${count} "
+behind = '⇣${count}'
+style = "cyan"
+
+
+[jobs]
+symbol = ""
+style = "bold red"
+number_threshold = 1
+format = "[$symbol]($style)"
+
+
+
+[cmd_duration]
+format = "[$duration]($style)"
+style = "yellow"
+
+[memory_usage]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[time]
+disabled = false
+# style = "bold white"
+format = "[$time]($style)"
+
+[custom.stunnel]
+when = "ps aux | grep stunnel | grep -v grep"
+command = "ps -o etime= -p $(ps aux | grep stunnel | grep -v grep | awk '{print $2}')"
+style = "red"
+format = "[TUNNEL OPEN for $output]($style)"
+
+[zig]
+format = "[$symbol]($style)"
+symbol = " "
+style = "yellow"
