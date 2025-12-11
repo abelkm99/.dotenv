@@ -1,9 +1,23 @@
+vim.keymap.set("n", "<C-t>", function()
+  local buf_id = vim.api.nvim_get_current_buf()
+  print("buff", buf_id , "win", vim.api.nvim_get_current_win(),"buff_name", vim.api.nvim_buf_get_name(buf_id))
+  -- vim.api.nvim_set_current_buf(14)
+end)
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+-- go out  of terminal mode
+vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>")
+
+-- auto source files when they are saved
+vim.keymap.set("n", "<leader><leader>x", ":source %<CR>", { desc = "Source current file" })
+vim.keymap.set("n", "<leader>x", ":.lua<CR>")
+vim.keymap.set("v", "<leader>x", ":lua<CR>")
 
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
@@ -33,24 +47,25 @@ vim.keymap.set("n", "<leader>Lc", ":e $MYVIMRC<CR>", { noremap = true, silent = 
 
 --- resize pan
 
-vim.keymap.set("n", "<A-l>", function()
+vim.keymap.set({"n","t"}, "<A-l>", function()
 	local win = vim.api.nvim_get_current_win()
 	local width = vim.api.nvim_win_get_width(win)
 	vim.api.nvim_win_set_width(win, width + 5)
 end, { noremap = true, silent = true, desc = "Increase pane width" })
 
-vim.keymap.set("n", "<A-h>", function()
+vim.keymap.set({"n","t"}, "<A-h>", function()
 	local win = vim.api.nvim_get_current_win()
 	local width = vim.api.nvim_win_get_width(win)
 	vim.api.nvim_win_set_width(win, width - 5)
 end, { noremap = true, silent = true, desc = "Decrease pane width" })
 
-vim.keymap.set("n", "<A-j>", function()
+vim.keymap.set({"n","t"}, "<A-j>", function()
 	local win = vim.api.nvim_get_current_win()
 	local height = vim.api.nvim_win_get_height(win)
 	vim.api.nvim_win_set_height(win, height + 5)
 end, { noremap = true, silent = true, desc = "Increase pane height" })
-vim.keymap.set("n", "<A-k>", function()
+
+vim.keymap.set({"n","t"}, "<A-k>", function()
 	local win = vim.api.nvim_get_current_win()
 	local height = vim.api.nvim_win_get_height(win)
 	vim.api.nvim_win_set_height(win, height - 5)

@@ -19,4 +19,9 @@ return {
 			style = "moon",
 		},
 	},
+	{
+		"rebelot/kanagawa.nvim",
+		name = "kanagawa",
+		lazy = false,
+	}
 }

@@ -47,6 +47,7 @@ return {
 		"numToStr/Navigator.nvim",
 		config = function()
 			vim.keymap.set({ "n", "t" }, "<Char-0xB0>", "<CMD>NavigatorLeft<CR>")
+			vim.keymap.set({ "n", "t" }, "<Char-0xB5>", "<CMD>NavigatorLeft<CR>")
 			vim.keymap.set({ "n", "t" }, "<Char-0xB1>", "<CMD>NavigatorDown<CR>")
 			vim.keymap.set({ "n", "t" }, "<Char-0xB2>", "<CMD>NavigatorUp<CR>")
 			vim.keymap.set({ "n", "t" }, "<Char-0xB3>", "<CMD>NavigatorRight<CR>")
