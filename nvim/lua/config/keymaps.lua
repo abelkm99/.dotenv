@@ -11,6 +11,22 @@ end)
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
+vim.keymap.set({"n"}, "cp", function()
+  local buf = vim.api.nvim_get_current_buf()
+  local full = vim.api.nvim_buf_get_name(buf)
+
+  if full == "" then
+    print("No file name for this buffer")
+    return
+  end
+
+  -- ":." makes the path relative to Neovim's current working directory (:pwd)
+  local rel = vim.fn.fnamemodify(full, ":.")
+  vim.fn.setreg("+", rel)
+  print("Copied to clipboard: " .. rel)
+end, { desc = "Copy current file path to clipboard" })
+
+
 -- go out  of terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>")
 
