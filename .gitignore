@@ -1,7 +1,11 @@
+*
+!nvim/
 !nvim/**
+!nvim/lsp/
+!nvim/lsp/**
+!wezterm/
 !wezterm/**
 !ghostty/
 !ghostty/**
 !starship.toml
 !.gitignore
-*
