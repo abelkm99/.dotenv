@@ -1,8 +1,8 @@
 ---@type table
 local vim = vim
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  callback = function(args)
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   callback = function(args)
     -- vim.lsp.buf.format()
     -- require("conform").format({ bufnr = args.buf })
     -- if vim.bo.filetype == "pythonnn" or vim.bo.filetype == "go" then
@@ -11,8 +11,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     -- 		apply = true,
     -- 	})
     -- end
-  end,
-})
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "zsh",
   callback = function()
     -- let treesitter use bash highlight for zsh files as well
-    require("nvim-treesitter.highlight").attach(0, "bash")
+    vim.treesitter.start(0, "bash")
   end,
 })
 
