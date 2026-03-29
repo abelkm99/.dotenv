@@ -1,6 +1,8 @@
 -- Place your Neovim options here
 -- Example:
 
+vim.opt.iskeyword:append("-")
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 

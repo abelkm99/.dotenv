@@ -39,7 +39,9 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function()
-			require("oil").setup({})
+			require("oil").setup({
+        watch_for_changes = true,
+      })
 		end,
 	},
 

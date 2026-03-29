@@ -4,6 +4,7 @@ background-opacity= 1
 clipboard-read = allow
 clipboard-write = deny
 theme = Gruvbox dark
+# theme = Gruvbox light
 # theme = Catppuccin Latte
 copy-on-select = clipboard
 bold-is-bright = true

@@ -1,9 +1,10 @@
 --  refere to https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md to configure LSP servers
 local vim = vim
 vim.lsp.enable({
+  "clangd",
 	"lua_ls",
 	"ruff",
-	"pyrefly",
+	-- "pyrefly",
 	"pyright",
 	-- "ty",
 	"yamlls",

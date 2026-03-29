@@ -27,6 +27,30 @@ vim.keymap.set({"n"}, "cp", function()
 end, { desc = "Copy current file path to clipboard" })
 
 
+vim.keymap.set("v", "cP", function()
+  local buf = vim.api.nvim_get_current_buf()
+  local full = vim.api.nvim_buf_get_name(buf)
+
+  if full == "" then
+    print("No file name for this buffer")
+    return
+  end
+
+  -- Path relative to Neovim's current working directory (:pwd)
+  local rel = vim.fn.fnamemodify(full, ":.")
+
+  -- Visual selection line range (works for v/V)
+  local start_line = vim.fn.line("'<")
+  local end_line   = vim.fn.line("'>")
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+
+  local out = string.format("%s#L%d-%d", rel, start_line, end_line)
+  vim.fn.setreg("+", out)
+  print("Copied to clipboard: " .. out)
+end, { desc = "Copy path#Lstart-end for visual selection" })
+
 -- go out  of terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>")
 

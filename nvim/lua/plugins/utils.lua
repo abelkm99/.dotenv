@@ -24,6 +24,17 @@ return {
 			{ "<leader>fh", "<cmd>FzfLua help_tags<CR>", desc = "FzfLua Help Tags" },
 			{ "<leader>fc", "<cmd>FzfLua git_status<CR>", desc = "FzfLua Git Status" },
 			{ "<leader>fd", "<cmd>FzfLua diagnostics_document<CR>", desc = "FzfLua Git Status" },
+			{
+				"<leader>fm",
+				function()
+					require("fzf-lua").live_grep({
+						prompt = "Merge Conflicts> ",
+						search = "^<<<<<<<|^=======|^>>>>>>>",
+						no_esc = true,
+					})
+				end,
+				desc = "Find Merge Conflicts",
+			},
 		},
 	},
 	{

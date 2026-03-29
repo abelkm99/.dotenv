@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    vim.cmd.colorscheme("catppuccin")
+    -- vim.cmd.colorscheme("catppuccin")
     vim.cmd.colorscheme("gruvbox-material")
 
     local fzf = require("fzf-lua")
