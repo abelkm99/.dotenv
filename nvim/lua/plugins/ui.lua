@@ -13,7 +13,7 @@ return {
 	{ "shaunsingh/solarized.nvim", lazy = true },
 	{
 		"folke/tokyonight.nvim",
-		lazy = true,
+		lazy = false,
 		priority = 1000,
 		opts = {
 			style = "moon",
@@ -23,5 +23,10 @@ return {
 		"rebelot/kanagawa.nvim",
 		name = "kanagawa",
 		lazy = false,
-	}
+	},
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		lazy = false,
+	},
 }

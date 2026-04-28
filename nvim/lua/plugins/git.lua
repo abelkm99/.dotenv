@@ -1,5 +1,25 @@
 return {
 	{
+		"sindrets/diffview.nvim",
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons", lazy = true },
+		},
+
+		keys = {
+			{
+				"dv",
+				function()
+					if next(require("diffview.lib").views) == nil then
+						vim.cmd("DiffviewOpen")
+					else
+						vim.cmd("DiffviewClose")
+					end
+				end,
+				desc = "Toggle Diffview window",
+			},
+		},
+	},
+	{
 		"lewis6991/gitsigns.nvim",
 		-- keys = {
 		-- 	{ "<leader>gl", "<cmd>Gitsigns blame_line<cr>", desc = "Git blame line" },
@@ -11,5 +31,51 @@ return {
 			vim.keymap.set("n", "<leader>gl", "<cmd>Gitsigns blame_line<cr>", { silent = true })
 			require("gitsigns").setup({})
 		end,
+	},
+	{
+		"pwntester/octo.nvim",
+		cmd = "Octo",
+		opts = {
+			-- or "fzf-lua" or "snacks" or "default"
+			picker = "telescope",
+			-- bare Octo command opens picker of commands
+			enable_builtin = true,
+		},
+		keys = {
+			{
+				"<leader>oi",
+				"<CMD>Octo issue list<CR>",
+				desc = "List GitHub Issues",
+			},
+			{
+				"<leader>op",
+				"<CMD>Octo pr list<CR>",
+				desc = "List GitHub PullRequests",
+			},
+			{
+				"<leader>od",
+				"<CMD>Octo discussion list<CR>",
+				desc = "List GitHub Discussions",
+			},
+			{
+				"<leader>on",
+				"<CMD>Octo notification list<CR>",
+				desc = "List GitHub Notifications",
+			},
+			{
+				"<leader>os",
+				function()
+					require("octo.utils").create_base_search_command({ include_current_repo = true })
+				end,
+				desc = "Search GitHub",
+			},
+		},
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"ibhagwan/fzf-lua",
+			-- OR "folke/snacks.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
 	},
 }

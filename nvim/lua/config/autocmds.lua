@@ -41,9 +41,9 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
 -- Re-apply transparent background whenever a colorscheme is set
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-    vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+    -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    -- vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    -- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
     -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
   end,
 })
@@ -52,6 +52,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     -- vim.cmd.colorscheme("catppuccin")
     vim.cmd.colorscheme("gruvbox-material")
+    -- vim.cmd.colorscheme("rose-pine")
 
     local fzf = require("fzf-lua")
     fzf.register_ui_select()
