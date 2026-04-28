@@ -17,6 +17,17 @@ return {
 				end,
 				desc = "Toggle Diffview window",
 			},
+			{
+				"<leader>dv",
+				function()
+					if next(require("diffview.lib").views) == nil then
+						vim.cmd("DiffviewOpen origin/main")
+					else
+						vim.cmd("DiffviewClose")
+					end
+				end,
+				desc = "Toggle Diffview window",
+			},
 		},
 	},
 	{
@@ -44,27 +55,28 @@ return {
 		keys = {
 			{
 				"<leader>oi",
-				"<CMD>Octo issue list<CR>",
+				"<CMD>tabnew | Octo issue list<CR>",
 				desc = "List GitHub Issues",
 			},
 			{
 				"<leader>op",
-				"<CMD>Octo pr list<CR>",
+				"<CMD>tabnew | Octo pr list<CR>",
 				desc = "List GitHub PullRequests",
 			},
 			{
 				"<leader>od",
-				"<CMD>Octo discussion list<CR>",
+				"<CMD>tabnew | Octo discussion list<CR>",
 				desc = "List GitHub Discussions",
 			},
 			{
 				"<leader>on",
-				"<CMD>Octo notification list<CR>",
+				"<CMD>tabnew | Octo notification list<CR>",
 				desc = "List GitHub Notifications",
 			},
 			{
 				"<leader>os",
 				function()
+					vim.cmd("tabnew")
 					require("octo.utils").create_base_search_command({ include_current_repo = true })
 				end,
 				desc = "Search GitHub",
