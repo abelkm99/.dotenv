@@ -24,6 +24,7 @@ return {
 			{ "<leader>fh", "<cmd>FzfLua help_tags<CR>", desc = "FzfLua Help Tags" },
 			{ "<leader>fc", "<cmd>FzfLua git_status<CR>", desc = "FzfLua Git Status" },
 			{ "<leader>fd", "<cmd>FzfLua diagnostics_document<CR>", desc = "FzfLua Git Status" },
+			{ "<leader>ft", "<cmd>FzfLua tabs<CR>", desc = "FzfLua Find Tabs" },
 			{
 				"<leader>fm",
 				function()
