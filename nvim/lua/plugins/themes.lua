@@ -1,7 +1,71 @@
+-- All theme plugins are eager-loaded. Lazy auto-detect of `:colorscheme X`
+-- is unreliable across this many plugins (different module-name conventions,
+-- some plugins reset their setup() in colors/X.lua, etc.), and we already
+-- pay the disk cost for every plugin we have. Eager load = always works.
 return {
 	{
 		"sainnhe/gruvbox-material",
 		lazy = false,
 		priority = 1000,
 	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		lazy = false,
+	},
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			style = "moon",
+		},
+	},
+	{
+		"rebelot/kanagawa.nvim",
+		name = "kanagawa",
+		lazy = false,
+	},
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		lazy = false,
+	},
+	{ "shaunsingh/solarized.nvim", lazy = false },
+	{ "Mofiqul/dracula.nvim", lazy = false, priority = 1000 },
+	{ "shaunsingh/nord.nvim", lazy = false, priority = 1000 },
+	{ "navarasu/onedark.nvim", lazy = false, priority = 1000 },
+	{ "Shatur/neovim-ayu", lazy = false, priority = 1000 },
+	{ "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
+	{ "loctvl842/monokai-pro.nvim", lazy = false, priority = 1000 },
+	{ "sainnhe/everforest", lazy = false, priority = 1000 },
+	{ "EdenEast/nightfox.nvim", lazy = false, priority = 1000 },
+	{
+		"zenbones-theme/zenbones.nvim",
+		lazy = false,
+		priority = 1000,
+		dependencies = { "rktjmp/lush.nvim" },
+	},
+	{ "sainnhe/sonokai", lazy = false, priority = 1000 },
+	{ "nyoom-engineering/oxocarbon.nvim", lazy = false, priority = 1000 },
+	{ "rmehri01/onenord.nvim", lazy = false, priority = 1000 },
+	{ "savq/melange-nvim", name = "melange", lazy = false, priority = 1000 },
+	{ "marko-cerovac/material.nvim", lazy = false, priority = 1000 },
+	{ "miikanissi/modus-themes.nvim", lazy = false, priority = 1000 },
+	{ "NTBBloodbath/doom-one.nvim", lazy = false, priority = 1000 },
+	{ "olivercederborg/poimandres.nvim", lazy = false, priority = 1000 },
+	{
+		"uloco/bluloco.nvim",
+		lazy = false,
+		priority = 1000,
+		dependencies = { "rktjmp/lush.nvim" },
+	},
+	{ "kepano/flexoki-neovim", name = "flexoki", lazy = false, priority = 1000 },
+	{ "vague-theme/vague.nvim", lazy = false, priority = 1000 },
+	{ "datsfilipe/vesper.nvim", lazy = false, priority = 1000 },
+	{ "oxfist/night-owl.nvim", lazy = false, priority = 1000 },
+	{ "Mofiqul/adwaita.nvim", lazy = false, priority = 1000 },
+	{ "bluz71/vim-moonfly-colors", name = "moonfly", lazy = false, priority = 1000 },
+	{ "aktersnurra/no-clown-fiesta.nvim", lazy = false, priority = 1000 },
 }

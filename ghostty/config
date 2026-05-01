@@ -3,11 +3,15 @@
 background-opacity= 1
 clipboard-read = allow
 clipboard-write = deny
-theme = Gruvbox dark
-# theme = Gruvbox light
-# theme = Catppuccin Latte
-# theme = Rose Pine Dawn
+# theme = Gruvbox Material
+# theme = Atom One Dark
+theme = Catppuccin Mocha
+# theme = Rose Pine
 # theme = Rose Pine Moon
+# theme = Kanagawa Dragon
+# theme = Solarized Dark Patched
+# theme = Atom One Light
+# theme = Atom One Dark
 
 copy-on-select = clipboard
 bold-is-bright = true

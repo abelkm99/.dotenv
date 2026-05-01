@@ -6,6 +6,29 @@ return {
     },
     keys = {
         {
+            "<leader>e",
+            function()
+                local views = require("diffview.lib").views
+                if next(views) ~= nil then
+                    local cur_tab = vim.api.nvim_get_current_tabpage()
+                    for _, view in pairs(views) do
+                        if view.tabpage == cur_tab then
+                            pcall(vim.cmd, "DiffviewClose")
+                            return
+                        end
+                    end
+                    for _, view in pairs(views) do
+                        if vim.api.nvim_tabpage_is_valid(view.tabpage) then
+                            vim.api.nvim_set_current_tabpage(view.tabpage)
+                            return
+                        end
+                    end
+                end
+                vim.cmd("DiffviewOpen")
+            end,
+            desc = "Diffview: working tree vs HEAD (toggle)",
+        },
+        {
             "dv",
             function()
                 local views = require("diffview.lib").views
@@ -80,7 +103,7 @@ return {
             desc = "Smart Diffview (PR scope)",
         },
         {
-            "<leader>dp",
+            "dV",
             function()
                 vim.ui.input({ prompt = "PR number: " }, function(pr_number)
                     if not pr_number or pr_number == "" then

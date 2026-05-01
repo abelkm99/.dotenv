@@ -48,10 +48,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
+-- Ghostty ↔ Neovim theme sync lives in config/ghostty_sync.lua (loaded from init.lua).
+
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     -- vim.cmd.colorscheme("catppuccin")
-    vim.cmd.colorscheme("gruvbox-material")
     -- vim.cmd.colorscheme("rose-pine")
 
     local fzf = require("fzf-lua")

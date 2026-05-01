@@ -8,3 +8,5 @@ require("config.lazy").setup()
 require("lazy").setup("plugins")
 
 require("config.autocmds")
+require("config.ghostty_sync")
+require("config.theme_picker")
