@@ -1,17 +1,12 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				-- Add your Treesitter configuration here
-				ensure_installed = { "lua", "vim", "vimdoc", "query", "python", "bash", "json" },
-				auto_install = true,
-				sync_install = false,
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = false,
-				},
+			require("nvim-treesitter").install({
+				"lua", "vim", "vimdoc", "query", "python", "bash", "json",
 			})
 		end,
 	},
@@ -214,8 +209,7 @@ return {
 	{
 		"ThePrimeagen/refactoring.nvim",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
+     "lewis6991/async.nvim",
 		},
 		config = function()
 			require("refactoring").setup()

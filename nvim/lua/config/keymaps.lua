@@ -51,6 +51,43 @@ vim.keymap.set("v", "cP", function()
   print("Copied to clipboard: " .. out)
 end, { desc = "Copy path#Lstart-end for visual selection" })
 
+vim.keymap.set("n", "cpt", function()
+  local buf = vim.api.nvim_get_current_buf()
+  local full = vim.api.nvim_buf_get_name(buf)
+  if full == "" then
+    print("No file name for this buffer")
+    return
+  end
+  if vim.bo[buf].filetype ~= "python" then
+    print("Not a Python buffer")
+    return
+  end
+
+  local rel = vim.fn.fnamemodify(full, ":.")
+  local module = rel:gsub("%.py$", ""):gsub("/", ".")
+
+  local node = vim.treesitter.get_node()
+  local cls, fn
+  while node do
+    local t = node:type()
+    if t == "function_definition" and not fn then
+      local name_node = node:field("name")[1]
+      if name_node then fn = vim.treesitter.get_node_text(name_node, buf) end
+    elseif t == "class_definition" and not cls then
+      local name_node = node:field("name")[1]
+      if name_node then cls = vim.treesitter.get_node_text(name_node, buf) end
+    end
+    node = node:parent()
+  end
+
+  local parts = { module }
+  if cls then table.insert(parts, cls) end
+  if fn then table.insert(parts, fn) end
+  local out = table.concat(parts, ".")
+  vim.fn.setreg("+", out)
+  print("Copied: " .. out)
+end, { desc = "Copy dotted Python test path (module.Class.method)" })
+
 -- go out  of terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<c-\\><c-n>")
 

@@ -4,8 +4,8 @@ vim.lsp.enable({
   "clangd",
 	"lua_ls",
 	"ruff",
-	-- "pyrefly",
-	"pyright",
+	"pyrefly",
+	-- "pyright",
 	-- "ty",
 	"yamlls",
 	"intelephense",
@@ -64,28 +64,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client.name == "pyrefly" then
 			local caps = client.server_capabilities
 
-			caps.hoverProvider = false
-			caps.definitionProvider = false
-			caps.declarationProvider = false
-			caps.referencesProvider = false
-			caps.renameProvider = false
-			caps.codeActionProvider = false
-			caps.documentFormattingProvider = false
-			caps.documentRangeFormattingProvider = false
-			caps.signatureHelpProvider = nil
-			caps.completionProvider = nil
-			caps.documentSymbolProvider = false
-			caps.workspaceSymbolProvider = false
-			caps.documentHighlightProvider = false
-			caps.semanticTokensProvider = nil
-			caps.inlayHintProvider = nil
-			caps.documentOnTypeFormattingProvider = nil
-			caps.foldingRangeProvider = false
-			caps.typeDefinitionProvider = false
-			caps.colorProvider = false
-			caps.selectionRangeProvider = false
+			-- caps.hoverProvider = false
+			-- caps.definitionProvider = false
+			-- caps.declarationProvider = false
+			-- caps.referencesProvider = false
+			-- caps.renameProvider = false
+			-- caps.codeActionProvider = false
+			-- caps.documentFormattingProvider = false
+			-- caps.documentRangeFormattingProvider = false
+			-- caps.signatureHelpProvider = nil
+			-- caps.completionProvider = nil
+			-- caps.documentSymbolProvider = false
+			-- caps.workspaceSymbolProvider = false
+			-- caps.documentHighlightProvider = false
+			-- caps.semanticTokensProvider = nil
+			-- caps.inlayHintProvider = nil
+			-- caps.documentOnTypeFormattingProvider = nil
+			-- caps.foldingRangeProvider = false
+			-- caps.typeDefinitionProvider = false
+			-- caps.colorProvider = false
+			-- caps.selectionRangeProvider = false
 			-- keep the implementation
-			caps.implementationProvider = true
+			-- caps.implementationProvider = true
 		end
 
 		-- Enable completion triggered by <c-x><c-o>
@@ -103,8 +103,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
 		buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 		buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-		buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-		buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+		buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.jump({ count = -1 })<CR>")
+		buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.jump({ count = 1 })<CR>")
 		buf_set_keymap(bufnr, "n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>")
 
 		-- set formatter

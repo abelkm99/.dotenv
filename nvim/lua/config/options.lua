@@ -83,6 +83,6 @@ vim.opt.wrap = false
 
 
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = true   -- Enable folding
 vim.opt.foldlevelstart = 99 -- Open all folds initially

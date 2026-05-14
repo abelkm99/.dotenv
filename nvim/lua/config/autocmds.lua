@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
   group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 
@@ -27,6 +27,13 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     -- let treesitter use bash highlight for zsh files as well
     vim.treesitter.start(0, "bash")
+  end,
+})
+
+-- nvim-treesitter main branch: highlighting is opt-in per buffer
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    pcall(vim.treesitter.start, args.buf)
   end,
 })
 
