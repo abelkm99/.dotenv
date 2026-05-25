@@ -154,31 +154,14 @@ return {
 		},
 	},
 	{
-		{
-			"numToStr/Comment.nvim",
-			opts = {
-				-- Configuration options, if any
-			},
-			keys = {
-				{ "<leader>/", mode = { "n", "v" } },
-			},
-			config = function()
-				require("Comment").setup({
-					ignore = "^$",
-				})
-
-				vim.keymap.set("n", "<leader>/", function()
-					require("Comment.api").toggle.linewise.current()
-				end, { desc = "Toggle comment" })
-
-				vim.keymap.set(
-					"v",
-					"<leader>/",
-					"<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-					{ desc = "Toggle comment for selection" }
-				)
-			end,
-		},
+		"folke/ts-comments.nvim",
+		opts = {},
+		event = "VeryLazy",
+		enabled = vim.fn.has("nvim-0.10") == 1,
+		init = function()
+			vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
+			vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
+		end,
 	},
 	{
 		"windwp/nvim-autopairs",

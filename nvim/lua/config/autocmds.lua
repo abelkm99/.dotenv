@@ -14,6 +14,12 @@ local vim = vim
 --   end,
 -- })
 
+-- Treat .env and .env.* as shell so commentstring works (# %s)
+vim.filetype.add({
+  filename = { [".env"] = "sh" },
+  pattern = { ["%.env%..*"] = "sh" },
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
   group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),

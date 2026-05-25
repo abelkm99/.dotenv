@@ -20,6 +20,26 @@ local ghostty_config = vim.fn.expand("~/.config/ghostty/config")
 local ghostty_available = vim.uv.fs_stat(ghostty_config) ~= nil
 local fallback_colorscheme = "gruvbox-material"
 
+-- ============================================================
+-- Concurrency / multi-nvim safety toggles.
+--
+-- atomic_write: write via tmp file + os.rename (POSIX atomic). Prevents
+-- two nvims writing the config simultaneously from producing a corrupted
+-- half-written file. Set false to fall back to direct vim.fn.writefile.
+--
+-- skip_own_writes: remember the last theme this nvim wrote and skip the
+-- fs_poll re-apply if it matches (within own_write_ttl_ms). Without it,
+-- nvim A picks "X" → writes file → A's own fs_poll fires → re-sources
+-- the colorscheme (wasteful), and in the two-nvim case, A re-applies
+-- whatever B wrote last even if A just picked. Set false to disable.
+--
+-- Set either to false to disable that protection independently.
+-- ============================================================
+local atomic_write = true
+local skip_own_writes = true
+local own_write_ttl_ms = 3000  -- how long to honor "we just wrote this"
+local last_own_write = { theme = nil, ts = 0 }
+
 -- Ghostty theme name → nvim colorscheme. String values run :colorscheme
 -- directly; function values handle plugins where the variant is selected
 -- via setup() or vim.o.background.
@@ -96,6 +116,7 @@ local theme_map = {
 
   -- Monokai Pro (filter set via setup)
   ["Monokai Pro"] = function() require("monokai-pro").setup({ filter = "pro" }) vim.cmd.colorscheme("monokai-pro") end,
+  ["Monokai Pro Light"] = function() require("monokai-pro").setup({ filter = "light" }) vim.cmd.colorscheme("monokai-pro-light") end,
   ["Monokai Pro Machine"] = function() require("monokai-pro").setup({ filter = "machine" }) vim.cmd.colorscheme("monokai-pro") end,
   ["Monokai Pro Octagon"] = function() require("monokai-pro").setup({ filter = "octagon" }) vim.cmd.colorscheme("monokai-pro") end,
   ["Monokai Pro Ristretto"] = function() require("monokai-pro").setup({ filter = "ristretto" }) vim.cmd.colorscheme("monokai-pro") end,
@@ -284,6 +305,7 @@ local nvim_to_ghostty = {
   ["github_light_high_contrast"] = "GitHub Light High Contrast",
   ["github_light_colorblind"] = "GitHub Light Colorblind",
   ["monokai-pro"] = "Monokai Pro",
+  ["monokai-pro-light"] = "Monokai Pro Light",
   ["monokai-pro-machine"] = "Monokai Pro Machine",
   ["monokai-pro-octagon"] = "Monokai Pro Octagon",
   ["monokai-pro-ristretto"] = "Monokai Pro Ristretto",
@@ -377,6 +399,29 @@ local function read_ghostty_theme()
   return theme
 end
 
+-- Atomic write helper: writes via tmp file + rename so a concurrent reader
+-- (Ghostty's reload, another nvim's fs_poll) never sees a half-written file.
+-- POSIX rename(2) is atomic on the same filesystem. Falls back to direct
+-- writefile if atomic_write is disabled.
+local function write_config_lines(lines)
+  if not atomic_write then
+    return pcall(vim.fn.writefile, lines, ghostty_config)
+  end
+  local tmp = ghostty_config .. ".nvim-sync.tmp"
+  local ok = pcall(vim.fn.writefile, lines, tmp)
+  if not ok then
+    pcall(os.remove, tmp)
+    return false
+  end
+  local renamed, err = os.rename(tmp, ghostty_config)
+  if not renamed then
+    pcall(os.remove, tmp)
+    vim.notify("[ghostty-sync] atomic rename failed: " .. tostring(err), vim.log.levels.WARN)
+    return false
+  end
+  return true
+end
+
 -- Rewrite the active `theme = X` line in ghostty_config (last non-commented
 -- one wins). If no active line exists, append. Returns true if file changed.
 local function set_ghostty_theme(ghostty_name)
@@ -398,7 +443,10 @@ local function set_ghostty_theme(ghostty_name)
   else
     table.insert(lines, new_line)
   end
-  pcall(vim.fn.writefile, lines, ghostty_config)
+  if not write_config_lines(lines) then return false end
+  -- Record our own write so fs_poll can skip the redundant re-apply
+  -- (and avoid clobbering this user's pick if another nvim wrote first).
+  last_own_write = { theme = ghostty_name, ts = vim.uv.now() }
   return true
 end
 
@@ -466,17 +514,29 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 -- ColorScheme → Ghostty: when nvim swaps colorscheme (e.g. via :colorscheme,
 -- :FzfLua colorschemes), rewrite the active theme line in ghostty_config and
 -- trigger Ghostty reload. Guard skips when we're applying inbound from Ghostty.
+-- Debounced 150ms so rapid back-to-back events (FzfLua picker's on_close
+-- revert + fn_selected re-apply) collapse into one final write+reload —
+-- otherwise intermediate states race the async osascript reload.
+local pending_ghostty_name
+local debounce_timer = vim.uv.new_timer()
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function(args)
     if not ghostty_available then return end
     if applying_from_ghostty then return end
     local ghostty_name = resolve_ghostty_name(args.match)
     if not ghostty_name then return end
-    if read_ghostty_theme() == ghostty_name then return end
-    if set_ghostty_theme(ghostty_name) then
-      vim.notify("[ghostty-sync] nvim → Ghostty: " .. ghostty_name, vim.log.levels.INFO)
-      trigger_ghostty_reload()
-    end
+    pending_ghostty_name = ghostty_name
+    debounce_timer:stop()
+    debounce_timer:start(150, 0, vim.schedule_wrap(function()
+      local target = pending_ghostty_name
+      pending_ghostty_name = nil
+      if not target then return end
+      if read_ghostty_theme() == target then return end
+      if set_ghostty_theme(target) then
+        vim.notify("[ghostty-sync] nvim → Ghostty: " .. target, vim.log.levels.INFO)
+        trigger_ghostty_reload()
+      end
+    end))
   end,
 })
 
@@ -493,6 +553,15 @@ if ghostty_available then
         return
       end
       local detected = read_ghostty_theme() or "<none>"
+      -- Skip if the change is just our own recent write echoing back via
+      -- the poller. Without this, every outbound write costs a wasted
+      -- :colorscheme re-source, and in the multi-nvim case it can clobber
+      -- this user's just-made pick with whatever another nvim wrote.
+      if skip_own_writes
+          and last_own_write.theme == detected
+          and (vim.uv.now() - last_own_write.ts) < own_write_ttl_ms then
+        return
+      end
       vim.notify("[ghostty-sync] config changed → " .. detected, vim.log.levels.INFO)
       apply_ghostty_theme()
       trigger_ghostty_reload()

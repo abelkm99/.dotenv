@@ -5,13 +5,13 @@ clipboard-read = allow
 clipboard-write = deny
 # theme = Gruvbox Material
 # theme = Atom One Dark
-theme = Catppuccin Mocha
-# theme = Rose Pine
+# theme = Catppuccin Mocha
 # theme = Rose Pine Moon
 # theme = Kanagawa Dragon
 # theme = Solarized Dark Patched
 # theme = Atom One Light
 # theme = Atom One Dark
+theme = Rose Pine Dawn
 
 copy-on-select = clipboard
 bold-is-bright = true
