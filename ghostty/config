@@ -3,7 +3,7 @@
 background-opacity= 1
 clipboard-read = allow
 clipboard-write = deny
-theme = Monokai Pro Ristretto
+theme = Ayu
 
 copy-on-select = clipboard
 bold-is-bright = true

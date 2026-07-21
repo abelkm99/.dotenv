@@ -184,3 +184,5 @@ vim.keymap.set("n", vim.fn.nr2char(super_vim_keys_map_alt["k"]), function()
 	local height = vim.api.nvim_win_get_height(win)
 	vim.api.nvim_win_set_height(win, height - 5)
 end, { noremap = true, silent = true })
+
+-- Neovide-specific settings and keymaps live in config/neovide.lua.
