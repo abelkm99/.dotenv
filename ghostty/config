@@ -3,15 +3,7 @@
 background-opacity= 1
 clipboard-read = allow
 clipboard-write = deny
-# theme = Gruvbox Material
-# theme = Atom One Dark
-# theme = Catppuccin Mocha
-# theme = Rose Pine Moon
-# theme = Kanagawa Dragon
-# theme = Solarized Dark Patched
-# theme = Atom One Light
-# theme = Atom One Dark
-theme = Rose Pine Dawn
+theme = Monokai Pro Ristretto
 
 copy-on-select = clipboard
 bold-is-bright = true
@@ -23,6 +15,10 @@ keybind = super+j=text:\u{B1}
 keybind = super+k=text:\u{B2}
 keybind = super+l=text:\u{B3}
 keybind = super+h=text:\u{B5}
+keybind = ctrl+j=text:\u{B1}
+keybind = ctrl+k=text:\u{B2}
+keybind = ctrl+l=text:\u{B3}
+keybind = ctrl+h=text:\u{B5}
  
 # keybind = »=goto_split:top
 # keybind = ½=goto_split:bottom
@@ -31,4 +27,23 @@ keybind = super+h=text:\u{B5}
 
 keybind = super+i=new_split:right
 keybind = super+o=new_split:down
+keybind = ctrl+i=new_split:right
+keybind = ctrl+o=new_split:down
 
+# New tab
+keybind = ctrl+n=new_tab
+keybind = ctrl+t=new_tab
+
+# Close current tab
+keybind = ctrl+w=close_surface
+
+# Go to tab 1-9
+keybind = ctrl+1=goto_tab:1
+keybind = ctrl+2=goto_tab:2
+keybind = ctrl+3=goto_tab:3
+keybind = ctrl+4=goto_tab:4
+keybind = ctrl+5=goto_tab:5
+keybind = ctrl+6=goto_tab:6
+keybind = ctrl+7=goto_tab:7
+keybind = ctrl+8=goto_tab:8
+keybind = ctrl+9=goto_tab:9

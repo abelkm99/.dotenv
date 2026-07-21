@@ -11,7 +11,8 @@ vim.lsp.enable({
 	"intelephense",
 	"laravel_ls",
 	"ts_ls",
-  "ruby_lsp"
+  "ruby_lsp",
+  "zls",
 })
 
 -- vim.diagnostic.config({
